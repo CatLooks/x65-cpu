@@ -25,6 +25,13 @@ void x65::CPU::set(word address, byte data); // output (CPU -> I/O)
 byte x65::CPU::get(word address);            // input  (CPU <- I/O)
 ```
 
+Control Functions:
+```cpp
+void x65::vectorIRQ(CPU& cpu); // ($7FFA) CPU interrupt
+void x65::vectorRST(CPU& cpu); // ($7FFC) CPU reset
+void x65::vectorNMI(CPU& cpu); // ($7FFE) CPU non-maskable interrupt
+```
+
 To clock a CPU, use <code>tick</code> function:
 ```cpp
 void x65::tick(CPU& cpu);
