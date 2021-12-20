@@ -100,7 +100,8 @@ namespace x65 {
 		return cpu.get(cpu.i++);
 	};
 	inline wt nextWord(CPU& cpu) {
-		return cpu.get(cpu.i++) | cpu.get(cpu.i++) << 8;
+	    bt d = cpu.get(cpu.i++);
+		return d | cpu.get(cpu.i++) << 8;
 	};
 	inline wt readByte(CPU& cpu, wt addr) {
 		return cpu.get(addr);
