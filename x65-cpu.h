@@ -159,11 +159,13 @@ namespace x65 {
 	// stack operations
 	inline void stackInc(CPU& cpu) {
 		cpu.s--;
-		cpu.s |= cpu.l;
+		if (cpu.s < cpu.l)
+            cpu.s = 0x1FFF;
 	};
 	inline void stackDec(CPU& cpu) {
 		cpu.s++;
-		cpu.s |= cpu.l;
+		if (cpu.s >= 0x2000)
+            cpu.s = cpu.l;
 	};
 
 	// stack pushes
@@ -298,12 +300,13 @@ namespace x65 {
 		update(cpu, cpu.x);
 	};
 	void TXS(CPU& cpu, Mode mode) {
-		cpu.s = cpu.x;
-		cpu.s |= cpu.l;
+		cpu.s = cpu.x & 0x1FFF;
+		if (cpu.s < cpu.l)
+            cpu.s = 0x1FFF;
 		update(cpu, cpu.s);
 	};
 	void TSX(CPU& cpu, Mode mode) {
-		cpu.x = cpu.s | cpu.l;
+		cpu.x = cpu.s;
 		update(cpu, cpu.x);
 	};
 	void THD(CPU& cpu, Mode mode) {
@@ -612,7 +615,7 @@ namespace x65 {
 		update(cpu, cpu.a);
 	};
 	void LTV(CPU& cpu, Mode mode) {
-		cpu.l = cpu.x;
+		cpu.l = cpu.x & 0x1FFF;
 	};
 	void JMP(CPU& cpu, Mode mode) {
 		cpu.i = readAddr(cpu, mode);
